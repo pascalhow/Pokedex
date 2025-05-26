@@ -2,10 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.hilt)
 }
 
 android {
-    namespace = "com.example.pokedex"
+    namespace = "com.pascalhow.pokedex"
     compileSdk = 35
 
     defaultConfig {
@@ -49,11 +51,24 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // For instrumented tests (androidTestImplementation)
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.compiler) // Or libs.hilt.android.compiler if you defined it separately
+
+    // For local unit tests (testImplementation)
+    testImplementation(libs.hilt.android.testing) // Hilt can be used for unit tests too
+    kaptTest(libs.hilt.compiler) // Or libs.hilt.android.compiler if you defined it separately
 }
